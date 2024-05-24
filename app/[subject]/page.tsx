@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, CSSProperties } from "react";
 import { useEdgeStore } from "../../lib/edgestore";
 import { useUser } from "@clerk/nextjs";
 import axios from "axios";
@@ -86,7 +86,7 @@ export default function Subject({ params }: { params: { subject: string } }) {
     };
 
     fetchData();
-  }, []);
+  }, [params.subject]);
 
   const handleUploadAndSubmit = async () => {
     if (file) {
@@ -120,7 +120,9 @@ export default function Subject({ params }: { params: { subject: string } }) {
         <p className="text-center text-4xl mt-5 capitalize">
           Subject: {params.subject}
         </p>
-        {canUpload && <p className="text-center text-xl mt-10">Upload documents here</p>}
+        {canUpload && (
+          <p className="text-center text-xl mt-10">Upload documents here</p>
+        )}
         {canUpload && (
           <div className="flex justify-center items-center space-x-6">
             <input
@@ -141,11 +143,13 @@ export default function Subject({ params }: { params: { subject: string } }) {
             ) : (
               <div
                 className="radial-progress"
-                style={{
-                  "--value": `${progress}`,
-                  "--size": "3rem",
-                  "--thickness": "2px",
-                }}
+                style={
+                  {
+                    "--value": `${progress}`,
+                    "--size": "3rem",
+                    "--thickness": "2px",
+                  } as CSSProperties
+                }
                 role="progressbar"
               >
                 {progress}%
